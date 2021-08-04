@@ -2,7 +2,6 @@ from __future__ import division
 import os
 from precise_runner import PreciseEngine, PreciseRunner
 import paho.mqtt.client as mqtt
-from time import sleep
 
 precise_path = os.path.join(os.path.dirname(__file__), "precise-engine/precise-engine")
 ww_path = os.path.join(os.path.dirname(__file__), "hey-dsr/hey-dsr.pb")
@@ -49,6 +48,8 @@ def activate_app():
 
     client.loop_stop()
 
+    print("MQTT message sent")
+
     return
 
 
@@ -57,10 +58,7 @@ def main():
     runner = PreciseRunner(engine, on_activation=lambda: activate_app())
     runner.start()
 
-    # Sleep forever
-    while True:
-        sleep(100)
-
 
 for i in range(0, 1):
-    main()
+    while True:
+        main()
