@@ -45,12 +45,9 @@ def activate_app():
     client.on_message = on_message
 
     client.publish("CovidApp/Activate", "ACTIVATE")
-
-    client.loop_stop()
-
     print("MQTT message sent")
 
-    return
+    client.loop_stop()
 
 
 def main():
@@ -59,6 +56,5 @@ def main():
     runner.start()
 
 
-for i in range(0, 1):
-    while True:
-        main()
+for i in range(0, 10):
+    main()
