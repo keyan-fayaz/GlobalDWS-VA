@@ -1,5 +1,7 @@
 from __future__ import division
 import os
+from time import sleep
+
 from precise_runner import PreciseEngine, PreciseRunner
 import paho.mqtt.client as mqtt
 
@@ -55,5 +57,10 @@ def main():
     runner = PreciseRunner(engine, on_activation=lambda: activate_app())
     runner.start()
 
+    # Sleep forever
+    while True:
+        sleep(100)
 
-main()
+
+for i in range(0, 1):
+    main()
