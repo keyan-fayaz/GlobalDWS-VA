@@ -51,7 +51,7 @@ def activate_app():
 
     client.loop_stop()
 
-    sleep(10)
+    sleep(40)
 
 
 def main():
