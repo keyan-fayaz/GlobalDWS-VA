@@ -51,6 +51,8 @@ def activate_app():
 
     client.loop_stop()
 
+    sleep(10)
+
 
 def main():
     engine = PreciseEngine(precise_path, ww_path)
