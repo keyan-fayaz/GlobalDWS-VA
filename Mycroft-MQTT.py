@@ -33,7 +33,7 @@ client.username_pw_set("JetsonNano", "G1obalDWS")
 
 
 def activate_app():
-    print("##### WAKE WORD DETECTED #####\n")
+    print("##### WAKE WORD DETECTED #####")
 
     # connect to HiveMQ Cloud on port 8883
     client.connect("df50a90e1ca64a16a186f38cb2d14114.s2.eu.hivemq.cloud", 8883)
@@ -47,11 +47,9 @@ def activate_app():
     client.on_message = on_message
 
     client.publish("CovidApp/Activate", "ACTIVATE")
-    print("MQTT message sent")
+    print("MQTT message sent\n")
 
     client.loop_stop()
-
-    sleep(40)
 
 
 def main():
