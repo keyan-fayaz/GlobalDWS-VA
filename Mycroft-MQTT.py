@@ -1,5 +1,6 @@
 from __future__ import division
 import os
+import time
 from time import sleep
 
 from precise_runner import PreciseEngine, PreciseRunner
@@ -12,9 +13,10 @@ ww_path = os.path.join(os.path.dirname(__file__), "hey-dsr/hey-dsr.pb")
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
+        client.connected_flag = True  # set flag
         print("Connected successfully")
     else:
-        print("Connect returned result code: " + str(rc))
+        print("Bad connection! Return code: " + str(rc))
 
 
 # The callback for when a PUBLISH message is received from the server.
@@ -22,34 +24,34 @@ def on_message(client, userdata, msg):
     print("Received message: " + msg.topic + " -> " + msg.payload.decode("utf-8"))
 
 
-# create the client
-client = mqtt.Client()
+mqtt.Client.connected_flag = False  # create flag IN class
 
-# enable TLS
-client.tls_set(tls_version=mqtt.ssl.PROTOCOL_TLS)
+client = mqtt.Client("JetsonNano-1")
+broker = "192.168.0.151"
 
-# set username and password
-client.username_pw_set("JetsonNano", "G1obalDWS")
+client.on_connect = on_connect
+client.on_message = on_message
 
 
 def activate_app():
     print("##### WAKE WORD DETECTED #####")
 
-    # connect to HiveMQ Cloud on port 8883
-    client.connect("df50a90e1ca64a16a186f38cb2d14114.s2.eu.hivemq.cloud", 8883)
-
-    # subscribe to the topic "CovidApp/Activate"
-    client.subscribe("CovidApp/Activate")
+    print("Connecting to broker", broker)
+    client.connect(broker)
 
     client.loop_start()
 
-    client.on_connect = on_connect
-    client.on_message = on_message
+    while not client.connected_flag:  # wait in loop
+        print("In wait loop")
+        time.sleep(1)
 
+    client.subscribe("CovidApp/Activate")
     client.publish("CovidApp/Activate", "ACTIVATE")
-    print("MQTT message sent\n")
+    print("MQTT message sent")
 
     client.loop_stop()
+    client.disconnect()
+    print("Disconnected successfully\n")
 
 
 def main():
