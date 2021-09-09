@@ -26,15 +26,8 @@ def on_message(client, userdata, msg):
 
 mqtt.Client.connected_flag = False  # create flag IN class
 
-client = mqtt.Client("GDWSPython")
+client = mqtt.Client("JetsonNano-1")
 broker = "192.168.0.151"
-
-print("Connecting to broker", broker)
-client.connect(broker)
-
-while not client.connected_flag:  # wait in loop
-    print("In wait loop")
-    time.sleep(1)
 
 client.on_connect = on_connect
 client.on_message = on_message
@@ -42,14 +35,23 @@ client.on_message = on_message
 
 def activate_app():
     print("##### WAKE WORD DETECTED #####")
+    
+    print("Connecting to broker", broker)
+    client.connect(broker)
 
     client.loop_start()
+    
+    while not client.connected_flag:  # wait in loop
+        print("In wait loop")
+        time.sleep(1)
 
     client.subscribe("CovidApp/Activate")
     client.publish("CovidApp/Activate", "ACTIVATE")
-    print("MQTT message sent\n")
+    print("MQTT message sent")
 
     client.loop_stop()
+    client.disconnect()
+    print("Disconnected successfully\n")
 
 
 def main():

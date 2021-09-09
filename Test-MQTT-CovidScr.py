@@ -39,13 +39,5 @@ print("MQTT message sent")
 
 client.loop_stop()
 client.disconnect()  # disconnect
-print("Disconnected successfully")
+print("Disconnected successfully\n")
 
-# # subscribe to the topic "CovidApp/Activate"
-# client.subscribe("CovidApp/Activate")
-#
-# client.on_message = on_message
-#
-# client.publish("CovidApp/Activate", "ACTIVATE")
-#
-# client.loop_forever()
