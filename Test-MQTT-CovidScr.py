@@ -21,7 +21,7 @@ def on_message(client, userdata, msg):
 mqtt.Client.connected_flag = False  # create flag IN class
 
 client = mqtt.Client("GDWSPython")
-broker = "192.168.0.151"
+broker = "192.168.99.151"
 
 client.on_connect = on_connect
 
