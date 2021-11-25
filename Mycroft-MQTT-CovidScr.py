@@ -46,7 +46,7 @@ def activate_app():
         time.sleep(1)
 
     client.subscribe("CovidApp/Activate")
-    client.publish("CovidApp/Activate", "ACTIVATE")
+    client.publish("CovidApp/Activate", "ACTIVATE", qos=2)
     print("MQTT message sent")
 
     client.loop_stop()

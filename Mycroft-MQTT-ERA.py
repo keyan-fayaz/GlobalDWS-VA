@@ -46,7 +46,7 @@ def activate_app():
         time.sleep(1)
 
     client.subscribe("ERA/Activate")
-    client.publish("ERA/Activate", "ACTIVATE")
+    client.publish("ERA/Activate", "ACTIVATE", qos=2)
     print("MQTT message sent")
 
     client.loop_stop()

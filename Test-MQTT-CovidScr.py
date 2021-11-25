@@ -34,7 +34,7 @@ while not client.connected_flag:  # wait in loop
     print("In wait loop")
     time.sleep(1)
 
-client.publish("CovidApp/Activate", "ACTIVATE")
+client.publish("CovidApp/Activate", "ACTIVATE", qos=2)
 print("MQTT message sent")
 
 client.loop_stop()
