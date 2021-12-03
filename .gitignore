@@ -3,4 +3,3 @@ venv/
 mycroft-precise/
 precise-engine/
 *.mp3
-google-credentials.json
