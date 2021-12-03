@@ -26,11 +26,12 @@ def on_message(client, userdata, msg):
 
 mqtt.Client.connected_flag = False  # create flag IN class
 
-client = mqtt.Client("JetsonNano-2")
-broker = "192.168.99.151"
+client = mqtt.Client("LinuxMachine-2")
+broker = "192.168.99.151"  # Change to IP address of the MQTT broker
+topic = "ERA/Activate"  # Change to any topic name you want. The same topic here should be used in the Android app
+message = "ACTIVATE"  # Change to whichever message you want
 
 client.on_connect = on_connect
-client.on_message = on_message
 
 
 def activate_app():
@@ -45,8 +46,7 @@ def activate_app():
         print("In wait loop")
         time.sleep(1)
 
-    client.subscribe("ERA/Activate")
-    client.publish("ERA/Activate", "ACTIVATE", qos=2)
+    client.publish(topic, message, qos=2)
     print("MQTT message sent")
 
     client.loop_stop()

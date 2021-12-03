@@ -20,8 +20,10 @@ def on_message(client, userdata, msg):
 
 mqtt.Client.connected_flag = False  # create flag IN class
 
-client = mqtt.Client("GDWSPython")
-broker = "192.168.99.151"
+client = mqtt.Client("GlobalDWS-Python")
+broker = "192.168.99.151"  # Change to IP address of the MQTT broker
+topic = "CovidApp/Activate"  # Change to any topic name you want. The same topic here should be used in the Android app
+message = "ACTIVATE"  # Change to whichever message you want
 
 client.on_connect = on_connect
 
@@ -34,7 +36,7 @@ while not client.connected_flag:  # wait in loop
     print("In wait loop")
     time.sleep(1)
 
-client.publish("CovidApp/Activate", "ACTIVATE", qos=2)
+client.publish(topic, message, qos=2)
 print("MQTT message sent")
 
 client.loop_stop()
