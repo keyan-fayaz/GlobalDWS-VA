@@ -211,17 +211,17 @@ In the `AndroidManifest.xml` file, you should add:
 - the below `<service>` tag INSIDE the `<application>` tag
 
   ```xml
-  		<service android:name="org.eclipse.paho.android.service.MqttService"/>
+  	<service android:name="org.eclipse.paho.android.service.MqttService"/>
   </application>
   ```
 
 - the below `<uses-permission>` tags INSIDE the `<manifest>` tag
 
   ```xml
-  		<uses-permission android:name="android.permission.WAKE_LOCK"/>
-  		<uses-permission android:name="android.permission.INTERNET" />
-  		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  		<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  	<uses-permission android:name="android.permission.WAKE_LOCK"/>
+  	<uses-permission android:name="android.permission.INTERNET" />
+  	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
   </manifest>
   ```
 
