@@ -256,8 +256,10 @@ We then set the connected_flag to false to assure that we are still not connecte
 ```python
 mqtt.Client.connected_flag = False  # create flag IN class
 
-client = mqtt.Client("GDWSPython")
-broker = "192.168.99.151"
+client = mqtt.Client("GlobalDWS-Python")
+broker = "192.168.99.151"  # Change to IP address of the MQTT broker
+topic = "AppName/Activate"  # Change to any topic name you want. The same topic here should be used in the Android app
+message = "ACTIVATE"  # Change to whichever message you want
 
 client.on_connect = on_connect
 
@@ -270,12 +272,21 @@ while not client.connected_flag:  # wait in loop
     print("In wait loop")
     time.sleep(1)
 
-client.publish("AppName/Activate", "ACTIVATE", qos=2)
+client.publish(topic, message, qos=2)
 print("MQTT message sent")
 
 client.loop_stop()
 client.disconnect()  # disconnect
+
 ```
+
+The `broker` should be the IP address of the MQTT broker; this is the same broker the Android app should connect to.
+
+The `topic` is whichever topic you want to send it to. Preferably, you should change this according to the name and function of the Android app receiving the message.
+
+The `message` can be whatever string of text you want; it doesn't make a difference what is the content of the message in the CovidScreening app. 
+
+However, you may want to send several messages to the Android app, if so, then you will need to filter the messages received in the Android app, either by topic or by content of the message, to perform different functionalities for different messages received.
 
 An in-depth explanation of using MQTT with Python's client side can be found [here](http://www.steves-internet-guide.com/client-connections-python-mqtt/).
 
@@ -388,7 +399,6 @@ public void subscribeToTopic(){
         mqttException.printStackTrace();
     }
 }
-
 ```
 
 Example code of unsubscribing to a topic using a function:
@@ -455,11 +465,12 @@ def on_message(client, userdata, msg):
 
 mqtt.Client.connected_flag = False  # create flag IN class
 
-client = mqtt.Client("JetsonNano-1")
-broker = "192.168.99.151"
+client = mqtt.Client("LinuxMachine-1")
+broker = "192.168.99.151"  # Change to IP address of the MQTT broker
+topic = "CovidApp/Activate"  # Change to any topic name you want. The same topic here should be used in the Android app
+message = "ACTIVATE"  # Change to whichever message you want
 
 client.on_connect = on_connect
-client.on_message = on_message
 
 
 def activate_app():
@@ -474,8 +485,7 @@ def activate_app():
         print("In wait loop")
         time.sleep(1)
 
-    client.subscribe("CovidApp/Activate")
-    client.publish("CovidApp/Activate", "ACTIVATE", qos=2)
+    client.publish(topic, message, qos=2)
     print("MQTT message sent")
 
     client.loop_stop()
@@ -509,4 +519,6 @@ In the case of the CovidScreening app, the way it should work is like this:
 - The Linux machine starts the mosquitto service once booted up and runs the Mycroft Precise and MQTT python script
 - The CovidScreening app on the robot connects to the broker once the app is launched and will subscribe to the "CovidApp/Activate" topic
 - The Linux machine detects the wake word --> The Linux machine connects to the broker (*it can be both the broker and client at the same time*) --> The Linux machine's client side sends the message to the broker --> The broker forwards the message to devices subscribed to the topic in the message --> The CovidScreening app receives the message from the broker --> The app activates and starts asking questions; it will also disconnect from the broker and clean the session 
+
+![](/Users/jamalzaghmout/Desktop/Voice | Knowledge Transfer/Graphical Representation.png)
 
