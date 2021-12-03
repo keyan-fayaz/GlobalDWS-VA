@@ -520,5 +520,5 @@ In the case of the CovidScreening app, the way it should work is like this:
 - The CovidScreening app on the robot connects to the broker once the app is launched and will subscribe to the "CovidApp/Activate" topic
 - The Linux machine detects the wake word --> The Linux machine connects to the broker (*it can be both the broker and client at the same time*) --> The Linux machine's client side sends the message to the broker --> The broker forwards the message to devices subscribed to the topic in the message --> The CovidScreening app receives the message from the broker --> The app activates and starts asking questions; it will also disconnect from the broker and clean the session 
 
-![Architecture Diagram](https://images2.imgbox.com/2d/ca/dmnUtdR0_o.png)
+![Architecture Diagram](https://images2.imgbox.com/63/a2/tDbo2r6d_o.png)
 
